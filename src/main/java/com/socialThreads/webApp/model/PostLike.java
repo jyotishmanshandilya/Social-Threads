@@ -1,9 +1,6 @@
 package com.socialThreads.webApp.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +14,8 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Likes {
+@Table(name = "post_like")
+public class PostLike {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID likeId;

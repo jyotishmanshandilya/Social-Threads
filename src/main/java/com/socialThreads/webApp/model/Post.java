@@ -29,6 +29,4 @@ public class Post {
 
     @Enumerated(EnumType.STRING)
     private PostType postType;
-
-
 }

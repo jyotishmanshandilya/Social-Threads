@@ -8,13 +8,8 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     properties:
-        hibernate:
-            dialect: org.hibernate.dialect.PostgreSQLDialect
-            jdbc:
-              batch_size: '10'
-            order_inserts: 'true'
-  flyway:
-    enabled: false
-
-server:
-  port: 4196
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          batch_size: '10'
+        order_inserts: 'true'
