@@ -18,3 +18,8 @@ spring:
 
 server:
   port: 4196
+
+security:
+  jwt:
+    secret-key: PR3y8LYtUI8i9g1YtKuCgkLx0l233vG1
+    expiration-time: 3600000

@@ -13,3 +13,13 @@ spring:
         jdbc:
           batch_size: '10'
         order_inserts: 'true'
+  flyway:
+    enabled: false
+
+server:
+  port: 4196
+
+security:
+  jwt:
+    secret-key: PR3y8LYtUI8i9g1YtKuCgkLx0l233vG1
+    expiration-time: 3600000

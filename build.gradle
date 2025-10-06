@@ -4,6 +4,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.7'
 	id "co.uzzu.dotenv.gradle" version "4.0.0"
 	id 'org.flywaydb.flyway' version '10.8.1'
+	id 'application'
 }
 
 group = 'com.socialThreads'
@@ -14,6 +15,10 @@ java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(21)
 	}
+}
+
+application {
+	mainClassName = "com.socialThreads.webApp.SocialThreadsApplication"
 }
 
 configurations {
@@ -33,7 +38,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.flywaydb:flyway-core'
 	implementation 'org.flywaydb:flyway-database-postgresql'
-	implementation "org.postgresql:postgresql:42.7.2"
+	implementation 'org.postgresql:postgresql:42.7.2'
+	implementation 'io.jsonwebtoken:jjwt-api:0.13.0'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.13.0'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.13.0'
 
 	compileOnly 'org.projectlombok:lombok:1.18.40'
 	annotationProcessor 'org.projectlombok:lombok:1.18.40'
