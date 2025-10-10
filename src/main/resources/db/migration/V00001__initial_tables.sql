@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS user_config (
     first_name TEXT,
     last_name TEXT,
     username TEXT NOT NULL UNIQUE,
-    email TEXT NOT NULL,
+    email TEXT,
     phone_number TEXT,
     encrypted_password TEXT,
     bio TEXT,

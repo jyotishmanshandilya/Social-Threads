@@ -21,5 +21,5 @@ server:
 
 security:
   jwt:
-    secret-key: PR3y8LYtUI8i9g1YtKuCgkLx0l233vG1
+    secret-key: i7QwDugB3oSCG4gOtiRmq42bK3UrCkB6uqVBRTUTVfQ=
     expiration-time: 3600000
