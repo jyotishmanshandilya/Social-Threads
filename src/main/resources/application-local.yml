@@ -30,7 +30,7 @@ server:
 security:
   jwt:
     secret-key: i7QwDugB3oSCG4gOtiRmq42bK3UrCkB6uqVBRTUTVfQ=
-    expiration-time: 3600000
+    expiration-time: 86400000
 
 google:
   api-key: "AIzaSyBnodsjCkI7RMaHcVC1tKqeI_TYQtbv-5E"

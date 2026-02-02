@@ -27,6 +27,7 @@ public class JobAggregatorService {
 
     private final SeedListRepository seedListRepository;
     private final CompanyJobsRepository companyJobsRepository;
+    private final JobDetailExtractionService jobDetailExtractionService;
 
     public void importJobs() {
         List<CompanySeedIdDTO> companySlugs = seedListRepository.findDistinctCompany();
@@ -34,7 +35,7 @@ public class JobAggregatorService {
         for (CompanySeedIdDTO companySeedIdDTO : companySlugs) {
             String company = companySeedIdDTO.getCompany();
             UUID seedListId = companySeedIdDTO.getId();
-            String jobsApiUrl = String.format("https://boards-api.greenhouse.io/v1/boards/%s/jobs", company);
+            String jobsApiUrl = String.format("https://boards-api.greenhouse.io/v1/boards/%s/jobs?content=true", company);
             try {
                 JSONObject result = fetchJobsJson(jobsApiUrl);
                 JSONArray jobsArray = result.optJSONArray("jobs");
@@ -85,8 +86,9 @@ public class JobAggregatorService {
                     String language = job.optString("language", null);
 
                     // TODO: look into extracting years of experience from job description page
+                    Integer yearsOfExperience = jobDetailExtractionService.extractYearsOfExperience(job.optString("content", null));
 //                    String yearsOfExperienceStr = extractYearsOfExperience(applicationUrl);
-                    Integer yearsOfExperience = null;
+//                    Integer yearsOfExperience = null;
 //                    if (yearsOfExperienceStr != null && !yearsOfExperienceStr.isEmpty()) {
 //                        try {
 //                            yearsOfExperience = Integer.parseInt(yearsOfExperienceStr);

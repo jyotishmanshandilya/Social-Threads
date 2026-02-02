@@ -3,9 +3,11 @@ spring:
     enabled: true
     validateMigrationNaming: true
     locations: classpath:db/migration
-    url: jdbc:postgresql://db.ewaacqxaozyuloyqzcou.supabase.co:5432/postgres
+#    url: jdbc:postgresql://db.ewaacqxaozyuloyqzcou.supabase.co:5432/postgres
+#    password: TIEhn2qmUtofssG
     user: postgres
-    password: TIEhn2qmUtofssG
+    url: jdbc:postgresql://localhost:5432/job-swipe
+    password: postgres
     baseline-on-migrate: true  # Useful for existing databases
     validate-on-migrate: true  # Validates checksums
     clean-disabled: true

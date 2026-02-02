@@ -1,6 +1,5 @@
 package com.JobSwipe.webApp.service;
 
-import com.JobSwipe.webApp.entities.SeedList;
 import com.JobSwipe.webApp.exception.InvalidDataException;
 import com.JobSwipe.webApp.model.enums.CsvContentType;
 import com.JobSwipe.webApp.repository.SeedListRepository;
@@ -11,8 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.nio.file.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 @Service
@@ -20,7 +17,6 @@ import java.util.List;
 public class SeedListBulkLoaderService {
 
     private final CsvService csvService;
-    private final SeedListRepository seedListRepository;
 
     /**
      * Loads and parses all CSV files in the provided directory using CsvService.
