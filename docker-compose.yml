@@ -3,7 +3,7 @@ version: '3.8'
 services:
   postgres:
     image: postgres:15
-    container_name: postgres-social-threads
+    container_name: postgres-job-swipe
     env_file:
       - .env
     environment:
@@ -14,7 +14,7 @@ services:
       - "${POSTGRES_PORT}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./init-scripts:/docker-entrypoint-initdb.d  # Optional: for initialization scripts
+#      - ./init-scripts:/docker-entrypoint-initdb.d  # Optional: for initialization scripts
 
 volumes:
   postgres_data:

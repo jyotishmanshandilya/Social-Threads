@@ -1,8 +1,8 @@
 spring:
   application:
-    name: SocialThreads
+    name: JobSwipe
   datasource:
-    url: jdbc:postgresql://localhost:5432/social-threads
+    url: jdbc:postgresql://localhost:5432/job-swipe
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
@@ -16,6 +16,14 @@ spring:
   flyway:
     enabled: false
 
+  cloud:
+    aws:
+      credentials:
+
+
+      region:
+
+
 server:
   port: 4196
 
@@ -23,3 +31,7 @@ security:
   jwt:
     secret-key: i7QwDugB3oSCG4gOtiRmq42bK3UrCkB6uqVBRTUTVfQ=
     expiration-time: 3600000
+
+google:
+  api-key: "AIzaSyBnodsjCkI7RMaHcVC1tKqeI_TYQtbv-5E"
+  cx: "f2aad16898c394f74"

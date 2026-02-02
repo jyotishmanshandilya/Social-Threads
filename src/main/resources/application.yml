@@ -1,12 +1,14 @@
 spring:
   application:
-    name: SocialThreads
+    name: JobSwipe
   datasource:
-    url: jdbc:postgresql://localhost:5432/social-threads
+    url: jdbc:postgresql://db.ewaacqxaozyuloyqzcou.supabase.co:5432/postgres
     username: postgres
-    password: postgres
+    password: TIEhn2qmUtofssG
     driver-class-name: org.postgresql.Driver
   jpa:
+    hibernate:
+      ddl-auto: none
     properties:
         hibernate:
             dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -21,5 +23,9 @@ server:
 
 security:
   jwt:
-    secret-key: PR3y8LYtUI8i9g1YtKuCgkLx0l233vG1
+    secret-key: i7QwDugB3oSCG4gOtiRmq42bK3UrCkB6uqVBRTUTVfQ=
     expiration-time: 3600000
+
+google:
+  api-key: "XNqNDXqXXj7rjesXOBWSRki+NbrLcIzq7AIco1UHx3I="
+  cx: "f2aad16898c394f74"
