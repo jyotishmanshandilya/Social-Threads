@@ -14,11 +14,13 @@ import java.util.UUID;
 @Table(name = "address")
 public class Address {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(unique = true, nullable = false)
     private UUID id;
 
-    private String company;
+    private String street;
+    private String city;
+    private String state;
+    private String country;
+    private String pincode;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

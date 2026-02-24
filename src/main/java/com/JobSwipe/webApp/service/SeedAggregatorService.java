@@ -7,6 +7,7 @@ import java.util.regex.*;
 
 import com.JobSwipe.webApp.entities.SeedList;
 import com.JobSwipe.webApp.repository.SeedListRepository;
+import com.JobSwipe.webApp.util.BackoffUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.*;
@@ -25,57 +26,26 @@ public class SeedAggregatorService {
 
     private final SearchEngineService searchEngineService;
     private final SeedListRepository seedListRepository;
-
-    public static final List<String> DISCOVERY_QUERIES = Arrays.asList(
-            // National scope
-            "site:boards.greenhouse.io software engineer India",
-            "site:boards.greenhouse.io software developer India",
-            "site:boards.greenhouse.io sde India",
-            "site:boards.greenhouse.io backend engineer India",
-            "site:boards.greenhouse.io frontend engineer India",
-            "site:boards.greenhouse.io fullstack engineer India",
-            "site:job-boards.greenhouse.io software engineer India",
-            // Major cities (Bengaluru, Bangalore, Mumbai, Chennai, Pune, Hyderabad, Noida, Gurgaon, Delhi)
-            "site:boards.greenhouse.io software engineer Bengaluru",
-            "site:boards.greenhouse.io software engineer Bangalore",
-            "site:boards.greenhouse.io software engineer Mumbai",
-            "site:boards.greenhouse.io software engineer Chennai",
-            "site:boards.greenhouse.io software engineer Pune",
-            "site:boards.greenhouse.io software engineer Hyderabad",
-            "site:boards.greenhouse.io software engineer Noida",
-            "site:boards.greenhouse.io software engineer Gurgaon",
-            "site:boards.greenhouse.io software engineer Delhi",
-            // Role/general with remote
-            "site:boards.greenhouse.io software engineer Remote India",
-            // Synonyms for developer/engineering roles in all cities
-            "site:boards.greenhouse.io software developer Bengaluru",
-            "site:boards.greenhouse.io software developer Bangalore",
-            "site:boards.greenhouse.io sde Hyderabad",
-            "site:boards.greenhouse.io backend Pune",
-            "site:boards.greenhouse.io frontend engineer Mumbai",
-            "site:boards.greenhouse.io fullstack Chennai",
-            // Catch-alls and industry-wide
-            "site:boards.greenhouse.io engineer India",
-            "site:boards.greenhouse.io India software",
-            "site:job-boards.greenhouse.io India software engineer",
-            "site:job-boards.greenhouse.io India software developer",
-            "site:job-boards.greenhouse.io India sde"
-    );
-
-    public static final List<String> INDIA_KEYWORDS = Arrays.asList(
-            "india", "bengaluru", "bangalore", "hyderabad",
-            "pune", "chennai", "noida", "gurgaon", "remote india"
-    );
+    private final QueryGeneratorService queryGeneratorService;
+    private final BackoffUtils backoffUtils;
 
     public static final long REQUEST_SLEEP_MS = 1000;
 
     public void discoverGreenhouseBoards() {
-        if (googleApiKey.isEmpty() || googleCx.isEmpty()) {
+        if (googleApiKey == null || googleApiKey.isEmpty() ||
+                googleCx == null || googleCx.isEmpty()) {
             log.error("googleApiKey or googleCx not set");
+            return;
         }
 
-        for (String query : DISCOVERY_QUERIES) {
-            log.info("Discovering greenhouse boards for query: " + query);
+        // Build queries dynamically from config
+        List<String> discoveryQueries = queryGeneratorService.buildQueries();
+        // Derive India keywords from the same locations config
+        List<String> indiaKeywords = queryGeneratorService.indiaKeywords();
+
+
+        for (String query : discoveryQueries) {
+            log.info("Discovering greenhouse boards for query: {}", query);
 
             for (int start = 1; start < 10000; start += 10) {
                 JSONObject result;
@@ -100,28 +70,25 @@ public class SeedAggregatorService {
                         continue;
                     }
 
-                    log.info("Found candidate board: {}", board);
-
                     JSONObject jobsData = null;
                     try {
                         jobsData = validateBoard(board);
                     } catch (IOException ignore) {}
+
                     if (jobsData == null) {
-                        log.error("Invalid board");
                         continue;
                     }
 
-                    if (!hasIndiaJobs(jobsData, INDIA_KEYWORDS)) {
+                    if (!hasIndiaJobs(jobsData, indiaKeywords)) {
                         log.info("No jobs found with location: India, for board: {}", board);
                         continue;
                     }
 
                     saveBoard(board);
-                    log.info("Valid board with India jobs: {}", board);
 
-                    try { Thread.sleep(REQUEST_SLEEP_MS); } catch (InterruptedException ignore) {}
+                    backoffUtils.sleepQuietly(REQUEST_SLEEP_MS);
                 }
-                try { Thread.sleep(REQUEST_SLEEP_MS); } catch (InterruptedException ignore) {}
+                backoffUtils.sleepQuietly(REQUEST_SLEEP_MS);
             }
         }
     }
@@ -154,7 +121,7 @@ public class SeedAggregatorService {
             JSONObject job = jobs.getJSONObject(i);
             JSONObject loc = job.optJSONObject("location");
             if (loc != null) {
-                String locName = loc.optString("name", "").toLowerCase();
+                String locName = loc.optString("name", "").toLowerCase(Locale.ROOT);
                 for (String k : indiaKeywords) {
                     if (locName.contains(k)) {
                         return true;

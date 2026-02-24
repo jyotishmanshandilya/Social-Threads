@@ -17,21 +17,10 @@ import java.util.UUID;
 @Table(name = "seed_list")
 public class SeedList {
     @Id
-    @Column(name = "id")
     private UUID id;
-
-    @Column(name = "company", nullable = false)
     private String company;
-
-    @Column(name = "job_board")
     private String jobBoard;
-
-    @Column(name = "validation_status")
     private boolean validationStatus;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

@@ -35,3 +35,50 @@ security:
 google:
   api-key: "AIzaSyBnodsjCkI7RMaHcVC1tKqeI_TYQtbv-5E"
   cx: "f2aad16898c394f74"
+
+search:
+  sites:
+    - boards.greenhouse.io
+    - job-boards.greenhouse.io
+
+#  roles:
+#    software engineer:
+#      - software engineer
+#      - software developer
+#      - sde
+#    backend engineer:
+#      - backend engineer
+#      - backend
+#    frontend engineer:
+#      - frontend engineer
+#      - frontend
+#    fullstack engineer:
+#      - fullstack engineer
+#      - fullstack
+
+  locations:
+    india:
+      - India
+    bengaluru:
+      - Bengaluru
+      - Bangalore
+    mumbai:
+      - Mumbai
+    chennai:
+      - Chennai
+    pune:
+      - Pune
+    hyderabad:
+      - Hyderabad
+    noida:
+      - Noida
+    gurgaon:
+      - Gurgaon
+    delhi:
+      - Delhi
+    remote india:
+      - Remote India
+
+  catchalls:
+    - careers India
+    - India careers
