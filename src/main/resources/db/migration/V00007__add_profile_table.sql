@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS user_preferences (
     employment_type JSONB, -- full time, internship
     remote_ok BOOLEAN DEFAULT FALSE,
     willing_to_relocate BOOLEAN DEFAULT FALSE,
-    preferred_yoe INT,
+    years_of_experience INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
