@@ -39,8 +39,8 @@ public class UserPreference {
     @Column(columnDefinition = "jsonb")
     private List<String> employmentType;
 
-    private Boolean remoteOk = false;
-    private Boolean willingToRelocate = false;
+    private boolean remoteOk;
+    private boolean willingToRelocate;
 
     private int yearsOfExperience;
 

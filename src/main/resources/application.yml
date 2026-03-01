@@ -76,3 +76,6 @@ search:
   catchalls:
     - engineer India
     - India software
+
+scheduling:
+  seedAggregatorServiceCron: "0 */5 * * * *"

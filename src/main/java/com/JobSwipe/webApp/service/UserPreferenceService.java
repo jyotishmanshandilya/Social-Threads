@@ -1,5 +1,6 @@
 package com.JobSwipe.webApp.service;
 
+import com.JobSwipe.webApp.entities.CompanyJobs;
 import com.JobSwipe.webApp.entities.UserPreference;
 import com.JobSwipe.webApp.repository.UserPreferenceRepository;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -47,4 +49,10 @@ public class UserPreferenceService {
 //    public void delete(UUID id) {
 //        repository.deleteById(id);
 //    }
+
+    // TODO: write this method to filter the jobs based on the user preferences.
+    //  This will be called from the ProfileService when fetching jobs for the user.
+    public List<CompanyJobs> filterJobs(List<CompanyJobs> jobs) {
+        return jobs;
+    }
 }

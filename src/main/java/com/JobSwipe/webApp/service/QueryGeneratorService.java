@@ -1,19 +1,17 @@
 package com.JobSwipe.webApp.service;
 
 import com.JobSwipe.webApp.configuration.QueryConfigProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class QueryGeneratorService {
 
     private final QueryConfigProperties config;
-
-    public QueryGeneratorService(QueryConfigProperties config) {
-        this.config = config;
-    }
 
     public List<String> buildQueries() {
         // LinkedHashSet preserves order and de-duplicates
