@@ -41,20 +41,20 @@ search:
     - boards.greenhouse.io
     - job-boards.greenhouse.io
 
-#  roles:
-#    software engineer:
-#      - software engineer
-#      - software developer
-#      - sde
-#    backend engineer:
-#      - backend engineer
-#      - backend
-#    frontend engineer:
-#      - frontend engineer
-#      - frontend
-#    fullstack engineer:
-#      - fullstack engineer
-#      - fullstack
+  roles:
+    software engineer:
+      - software engineer
+      - software developer
+      - sde
+    backend engineer:
+      - backend engineer
+      - backend
+    frontend engineer:
+      - frontend engineer
+      - frontend
+    fullstack engineer:
+      - fullstack engineer
+      - fullstack
 
   locations:
     india:
@@ -82,3 +82,6 @@ search:
   catchalls:
     - careers India
     - India careers
+
+scheduling:
+  seedAggregatorServiceCron: "0 * * * * *"

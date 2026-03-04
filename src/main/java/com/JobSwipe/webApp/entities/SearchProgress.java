@@ -25,4 +25,5 @@ public class SearchProgress {
 
     private LocalDateTime lastRun;
     private int pageStart;
+    private int seedsDiscovered;
 }

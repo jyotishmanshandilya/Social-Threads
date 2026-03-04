@@ -12,4 +12,6 @@ import java.util.UUID;
 public interface SearchProgressRepository extends JpaRepository<SearchProgress, UUID> {
 
     Optional<SearchProgress> findTopByQueryAndStatusOrderByLastRunDesc(String query, SearchQueryStatus status);
+
+    boolean existsByQueryAndStatusOrderByLastRunDesc(String query, SearchQueryStatus status);
 }

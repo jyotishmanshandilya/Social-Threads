@@ -27,7 +27,7 @@ public class CompanyJobs {
     private String workplaceType;
     private Integer yearsOfExperience;
     private LocalDateTime postedDate;
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
     private String language;
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    private LocalDateTime updatedAt;
 }

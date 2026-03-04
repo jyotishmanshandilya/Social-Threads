@@ -35,8 +35,8 @@ public class SeedAggregatorService {
     private final SearchProgressRepository searchProgressRepository;
 
     public static final long REQUEST_SLEEP_MS = 1000;
-    private static final int PAGE_STEP = 1;
-    private static final int MAX_RESULTS = 1000; //
+    private static final int PAGE_STEP = 10; //google's default page size
+    private static final int MAX_RESULTS = 100;
 
     @Scheduled(cron = "${scheduling.seedAggregatorServiceCron:0 0 9 * * MON-FRI}", zone = "America/New_York")
     public void discoverGreenhouseBoards() {
@@ -51,16 +51,28 @@ public class SeedAggregatorService {
         // Derive India keywords from the same locations config
         List<String> indiaKeywords = queryGeneratorService.indiaKeywords();
 
+        int seedCounter = 0;
         for (String query : discoveryQueries) {
             log.info("Discovering greenhouse boards for query: {}", query);
 
+            // TODO: optimize so that after x time (eg. 1 day), we can retry even the completed queries,
+            //  to discover new boards that might have come up since last run.
+            if(searchProgressRepository.existsByQueryAndStatusOrderByLastRunDesc(query, SearchQueryStatus.COMPLETED)) {
+                continue;
+            }
+
             SearchProgress progress = searchProgressRepository
-                    .findTopByQueryAndStatusOrderByLastRunDesc(query, SearchQueryStatus.COMPLETED)
+                    .findTopByQueryAndStatusOrderByLastRunDesc(query, SearchQueryStatus.FAILED)
                     .orElseGet(() -> SearchProgress.builder()
+                            .id(UUID.randomUUID())
                             .query(query)
-                            .lastRun(LocalDateTime.now())
                             .pageStart(1)
                             .build());
+
+            progress.setStatus(SearchQueryStatus.PENDING);
+            progress.setLastRun(LocalDateTime.now());
+
+            searchProgressRepository.save(progress);
 
             for (int start = progress.getPageStart(); start < MAX_RESULTS; start += PAGE_STEP) {
                 JSONObject result;
@@ -73,6 +85,7 @@ public class SeedAggregatorService {
                         progress.setPageStart(start); // Page where we failed
                         progress.setLastRun(LocalDateTime.now());
                         progress.setStatus(SearchQueryStatus.FAILED);
+                        progress.setSeedsDiscovered(seedCounter);
                         searchProgressRepository.save(progress);
                         return; // ABORT THE RUN
                     } else {
@@ -104,18 +117,22 @@ public class SeedAggregatorService {
                         continue;
                     }
 
-                    if (!hasIndiaJobs(jobsData, indiaKeywords)) {
-                        log.info("No jobs found with location: India, for board: {}", board);
-                        continue;
-                    }
-
                     saveBoard(board);
+                    seedCounter++;
 
-                    // TODO: commenting the backoff to sleep for testing
-//                    backoffUtils.sleepQuietly(REQUEST_SLEEP_MS);
+                    backoffUtils.sleepQuietly(REQUEST_SLEEP_MS);
+
+                    // Save progress after each page
+                    progress.setPageStart(start + PAGE_STEP);
+                    progress.setStatus(SearchQueryStatus.PENDING);
+                    progress.setSeedsDiscovered(seedCounter);
+                    searchProgressRepository.save(progress);
                 }
-//                backoffUtils.sleepQuietly(REQUEST_SLEEP_MS);
+                backoffUtils.sleepQuietly(REQUEST_SLEEP_MS);
             }
+            progress.setPageStart(MAX_RESULTS);
+            progress.setStatus(SearchQueryStatus.COMPLETED);
+            searchProgressRepository.save(progress);
         }
     }
 

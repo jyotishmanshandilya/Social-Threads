@@ -2,11 +2,13 @@ package com.JobSwipe.webApp.service;
 
 import com.JobSwipe.webApp.configuration.QueryConfigProperties;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class QueryGeneratorService {
@@ -38,6 +40,8 @@ public class QueryGeneratorService {
                 queries.add(String.format("site:%s %s", site, c));
             }
         }
+
+        log.info("Generated {} queries", queries);
         return new ArrayList<>(queries);
     }
 

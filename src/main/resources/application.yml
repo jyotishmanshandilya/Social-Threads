@@ -78,4 +78,4 @@ search:
     - India software
 
 scheduling:
-  seedAggregatorServiceCron: "0 */5 * * * *"
+  seedAggregatorServiceCron: "0 * * * * *"
