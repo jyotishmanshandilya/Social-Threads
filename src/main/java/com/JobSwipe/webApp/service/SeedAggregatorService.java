@@ -38,7 +38,7 @@ public class SeedAggregatorService {
     private static final int PAGE_STEP = 10; //google's default page size
     private static final int MAX_RESULTS = 100;
 
-    @Scheduled(cron = "${scheduling.seedAggregatorServiceCron:0 0 9 * * MON-FRI}", zone = "America/New_York")
+    @Scheduled(cron = "${scheduling.seedAggregatorServiceCron:0 0 9 * * MON-FRI}", zone = "Asia/Calcutta")
     public void discoverGreenhouseBoards() {
         if (googleApiKey == null || googleApiKey.isEmpty() ||
                 googleCx == null || googleCx.isEmpty()) {

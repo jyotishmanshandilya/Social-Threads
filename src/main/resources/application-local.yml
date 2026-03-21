@@ -16,12 +16,12 @@ spring:
   flyway:
     enabled: false
 
-  cloud:
-    aws:
-      credentials:
-
-
-      region:
+#  cloud:
+#    aws:
+#      credentials:
+#
+#
+#      region:
 
 
 server:
